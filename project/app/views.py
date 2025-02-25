@@ -119,3 +119,47 @@ def stafhome(request):
 
 def customerhome(request):
     return render(request,'customer/customerhome.html')
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Vehicle, Staf
+from .forms import VehicleForm
+
+# Add Vehicle
+def add_vehicle(request):
+    if request.method == "POST":
+        form = VehicleForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Vehicle added successfully!")
+            return redirect("vehicle_list")
+        else:
+            messages.error(request, "Error adding vehicle. Please check the details.")
+    else:
+        form = VehicleForm()
+
+    staff_list = Staf.objects.all()
+    return render(request, "staf/add_vehicle.html", {"form": form, "staff_list": staff_list})
+
+# View Vehicles
+def vehicle_list(request):
+    vehicles = Vehicle.objects.all()
+    return render(request, "staf/vehicle_list.html", {"vehicles": vehicles})
+
+# Update Vehicle
+def update_vehicle(request, vehicle_id):
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+    if request.method == "POST":
+        form = VehicleForm(request.POST, request.FILES, instance=vehicle)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Vehicle updated successfully!")
+            return redirect("vehicle_list")
+        else:
+            messages.error(request, "Error updating vehicle. Please check the details.")
+    else:
+        form = VehicleForm(instance=vehicle)
+
+    return render(request, "staf/update_vehicle.html", {"form": form})

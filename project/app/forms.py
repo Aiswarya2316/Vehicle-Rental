@@ -52,3 +52,15 @@ class AdminRegistrationForm(forms.ModelForm):
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput())
+
+
+
+
+
+from django import forms
+from .models import Vehicle
+
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = ["staf", "name", "model", "price_per_day", "availability", "image"]

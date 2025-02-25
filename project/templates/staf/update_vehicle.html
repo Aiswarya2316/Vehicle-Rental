@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Vehicle | Vehicle Rental</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: #161b22;
+            padding: 15px 8%;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar .logo a {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ffcc00;
+            text-decoration: none;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: #e0e0e0;
+            font-weight: 500;
+            padding: 8px 12px;
+            transition: 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* Container */
+        .container {
+            max-width: 450px;
+            margin-top: 50px;
+            background: #1c1f26;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #ffcc00;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            text-align: left;
+            color: #ffcc00;
+            font-weight: 500;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background: #262b33;
+            color: #fff;
+            font-size: 14px;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ffcc00;
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            padding: 12px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #ffaa00;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #ffcc00;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-secondary:hover {
+            color: #ffaa00;
+            text-decoration: underline;
+        }
+
+        /* Message Alerts */
+        .message {
+            padding: 10px;
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .container {
+                max-width: 90%;
+                padding: 25px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar ul {
+                margin-top: 10px;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo"><a href="../stafhome">🚗 Vehicle Rental</a></div>
+        <ul>
+            <li><a href="{% url 'add_vehicle' %}">Add Vehicle</a></li>
+            <li><a href="{% url 'vehicle_list' %}">View Vehicles</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container">
+        <h2>Update Vehicle</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="id_name">Vehicle Name</label>
+            <input type="text" name="name" id="id_name" value="{{ form.instance.name }}" required>
+
+            <label for="id_model">Vehicle Model</label>
+            <input type="text" name="model" id="id_model" value="{{ form.instance.model }}" required>
+
+            <label for="id_price_per_day">Price Per Day ($)</label>
+            <input type="number" name="price_per_day" id="id_price_per_day" value="{{ form.instance.price_per_day }}" required>
+
+            <label for="id_availability">Availability</label>
+            <select name="availability" id="id_availability">
+                <option value="True" {% if form.instance.availability %}selected{% endif %}>Available</option>
+                <option value="False" {% if not form.instance.availability %}selected{% endif %}>Not Available</option>
+            </select>
+
+            <label for="id_image">Vehicle Image</label>
+            <input type="file" name="image" id="id_image">
+
+            <button type="submit" class="btn-primary">Update Vehicle</button>
+        </form>
+
+        <a href="{% url 'vehicle_list' %}" class="btn-secondary">Back to Vehicle List</a>
+    </div>
+
+</body>
+</html>
