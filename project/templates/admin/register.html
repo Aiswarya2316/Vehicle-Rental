@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: url("{% static '360-f-269246509-sahms5iaitonvlqe6ukdjfqsi6mqt9cb-car-rental-for-outstation-maruti-suzuki-1-7vv5u.avif' %}") no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 420px;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.9); /* Light background */
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        h2 {
+            color: #0077b6;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #000; /* Black color for labels */
+            text-align: left;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #000; /* Black text */
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        input::placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        input:focus {
+            border-color: #0077b6;
+            outline: none;
+            background: #f0f0f0;
+        }
+
+        button {
+            padding: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00e6e6, #0077b6);
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 5px 15px rgba(0, 230, 230, 0.5);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #0077b6, #00e6e6);
+            transform: scale(1.05);
+            box-shadow: 0px 8px 20px rgba(0, 119, 182, 0.6);
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #0077b6;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        a:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        {% block content %}
+            <h2>Register as {{ user_type }}</h2>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+            </form>
+            <a href="{% url 'login' %}">Already have an account? Login</a>
+        {% endblock %}
+    </div>
+
+</body>
+</html>
