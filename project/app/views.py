@@ -309,3 +309,12 @@ def payment_success(request):
 
 def about (request):
     return render(request,'customer/about.html')
+
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Booking, Staf
+
+def staf_bookings(request):
+    bookings = Booking.objects.all() # Get bookings for Staf's vehicles
+    return render(request, "staf/staf_bookings.html", {"bookings": bookings})

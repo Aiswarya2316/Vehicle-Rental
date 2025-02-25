@@ -16,8 +16,8 @@
         }
 
         body {
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #0d1117;
+            color: #e0e0e0;
         }
 
         /* Navbar */
@@ -41,7 +41,7 @@
         }
 
         .navbar .logo a {
-            color: #ffcc00;
+            color: #00aaff;
             text-decoration: none;
         }
 
@@ -49,10 +49,6 @@
             list-style: none;
             display: flex;
             gap: 20px;
-        }
-
-        .navbar ul li {
-            display: inline;
         }
 
         .navbar ul li a {
@@ -64,7 +60,7 @@
         }
 
         .navbar ul li a:hover {
-            background: #ffcc00;
+            background: #00aaff;
             color: black;
             border-radius: 5px;
         }
@@ -90,7 +86,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .hero-content {
@@ -101,7 +97,7 @@
         .hero h1 {
             font-size: 42px;
             margin-bottom: 10px;
-            color: #ffcc00;
+            color: #00aaff;
         }
 
         .hero p {
@@ -110,7 +106,7 @@
         }
 
         .hero a {
-            background: #ffcc00;
+            background: #00aaff;
             color: black;
             border: none;
             padding: 12px 20px;
@@ -123,20 +119,20 @@
         }
 
         .hero a:hover {
-            background: #ffaa00;
+            background: #0088cc;
         }
 
         /* Features Section */
         .features {
             padding: 60px 10%;
             text-align: center;
-            background: white;
+            background: #161b22;
         }
 
         .features h2 {
             font-size: 32px;
             margin-bottom: 20px;
-            color: #1b2838;
+            color: #00aaff;
             font-weight: bold;
         }
 
@@ -148,22 +144,22 @@
         }
 
         .feature-box {
-            background: #f8f9fa;
+            background: #1c1f26;
             padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 170, 255, 0.2);
             text-align: center;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .feature-box:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 15px rgba(0, 170, 255, 0.3);
         }
 
         .feature-box i {
             font-size: 50px;
-            color: #1b2838;
+            color: #00aaff;
             margin-bottom: 15px;
         }
 
@@ -175,7 +171,7 @@
 
         .feature-box p {
             font-size: 16px;
-            color: #555;
+            color: #bbb;
         }
 
         /* Responsive Design */
@@ -207,17 +203,25 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .navbar .logo  {
+            text-decoration: none; /* Removes underline */
+            color: #00aaff; /* Keeps blue color */
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
     </style>
 </head>
 <body>
 
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <div class="logo"><a href="../stafhome">🚗 Vehicle Rental</a></div>
+        <div class="logo">🚗 Vehicle Rental</div>
         <ul>
             <li><a href="{% url 'add_vehicle' %}">Add Vehicle</a></li>
             <li><a href="{% url 'vehicle_list' %}">View Vehicles</a></li>
-            <li><a href="#">Reports</a></li>
+            <li><a href="{% url 'staf_bookings' %}">View My Bookings</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
         </ul>
     </nav>
@@ -227,7 +231,6 @@
         <div class="hero-content">
             <h1>Welcome, {{ staf.name }}</h1>
             <p>Manage your tasks efficiently and stay updated.</p>
-            {% comment %} <a href="{% url 'staf_vehicle_list' %}">View Vehicles</a> {% endcomment %}
         </div>
     </section>
 

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Vehicle Rental</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #d0d9e0;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #001f3f;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            align-items: center;
+            box-shadow: 0px 2px 10px rgba(0, 170, 255, 0.3);
+        }
+
+        .navbar .logo a {
+    text-decoration: none; /* Removes underline */
+    color: #00aaff; /* Keeps blue color */
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00aaff;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar ul li {
+            margin: 0 15px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: 0.3s;
+            padding: 8px 12px;
+        }
+
+        .navbar ul li a:hover {
+            background: rgba(0, 170, 255, 0.3);
+            border-radius: 5px;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            background: #0a0f1a;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 170, 255, 0.3);
+        }
+
+        h2 {
+            color: #00aaff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #001f3f;
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table, th, td {
+            border: 1px solid #004080;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #00aaff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #002855;
+        }
+
+        tr:hover {
+            background: rgba(0, 170, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+            }
+
+            .navbar ul li {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo"><a href="../stafhome"> 🚗 Vehicle Rental </a></div>
+        <ul>
+            <li><a href="{% url 'add_vehicle' %}">Add Vehicle</a></li>
+            <li><a href="{% url 'vehicle_list' %}">View Vehicles</a></li>
+            <li><a href="{% url 'staf_bookings' %}">View My Bookings</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        <h2>Bookings for {{ staf.name }}</h2>
+
+        <table>
+            <tr>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Vehicle</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Price</th>
+                <th>Payment Status</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.customer_name }}</td>
+                <td>{{ booking.customer_phone }}</td>
+                <td>{{ booking.vehicle.name }}</td>
+                <td>{{ booking.start_date }}</td>
+                <td>{{ booking.end_date }}</td>
+                <td>${{ booking.total_price }}</td>
+                <td>{{ booking.payment_status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No bookings found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endblock %}
+    </div>
+
+</body>
+</html>

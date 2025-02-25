@@ -15,8 +15,8 @@
         }
         
         body {
-            background-color: #0d1117;
-            color: #e0e0e0;
+            background-color: #000; /* Black background */
+            color: #d0d9e0; /* Light blue-grey text */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,7 +28,7 @@
         /* Navbar */
         .navbar {
             width: 100%;
-            background: #161b22;
+            background: #001f3f; /* Dark Blue */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,13 +37,13 @@
             top: 0;
             left: 0;
             z-index: 1000;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 10px rgba(0, 0, 255, 0.3);
         }
 
         .logo {
             font-size: 22px;
             font-weight: bold;
-            color: #ffcc00;
+            color: #00aaff; /* Bright Blue */
         }
 
         .navbar ul {
@@ -54,29 +54,29 @@
 
         .navbar ul li a {
             text-decoration: none;
-            color: #e0e0e0;
+            color: #d0d9e0;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .navbar ul li a:hover {
-            color: #ffcc00;
+            color: #00aaff;
         }
 
         /* Container */
         .container {
-            background: #1c1f26;
+            background: #0a0f1a; /* Darker Blue Shade */
             padding: 30px;
             border-radius: 12px;
             width: 450px;
-            box-shadow: 0 0 15px #cdef33;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
             text-align: center;
             margin-top: 80px;
             transition: 0.3s;
         }
 
         h2 {
-            color: #ffcc00;
+            color: #00aaff;
             margin-bottom: 20px;
             font-size: 24px;
         }
@@ -92,15 +92,15 @@
             font-size: 14px;
             font-weight: 500;
             text-align: left;
-            color: #c9d1d9;
+            color: #d0d9e0;
         }
 
         input, select {
             padding: 5px;
-            border: 1px solid #333;
+            border: 1px solid #004080;
             border-radius: 5px;
-            background: #262b33;
-            color: #fff;
+            background: #0d1b2a;
+            color: #d0d9e0;
             font-size: 14px;
             width: 100%;
             transition: 0.3s;
@@ -108,13 +108,13 @@
 
         input:focus, select:focus {
             outline: none;
-            border-color: #ffcc00;
+            border-color: #00aaff;
         }
 
         /* Buttons */
         .btn-primary {
             padding: 12px;
-            background: #ffcc00;
+            background: #00aaff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -125,20 +125,20 @@
         }
 
         .btn-primary:hover {
-            background: #ffaa00;
+            background: #0088cc;
         }
 
         .btn-secondary {
             display: inline-block;
             margin-top: 10px;
             text-decoration: none;
-            color: #ffcc00;
+            color: #00aaff;
             font-weight: bold;
             transition: color 0.3s ease;
         }
 
         .btn-secondary:hover {
-            color: #ffaa00;
+            color: #0088cc;
         }
 
         /* Responsive Design */
@@ -159,26 +159,29 @@
                 gap: 10px;
             }
         }
+
+        .navbar .logo a {
+            text-decoration: none; /* Removes underline */
+            color: #00aaff; /* Keeps blue color */
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">🚗 Vehicle Rental</div>
+        <div class="logo"><a href="../stafhome"> 🚗 Vehicle Rental</a></div>
         <ul>
             <li><a href="{% url 'add_vehicle' %}">Add Vehicle</a></li>
             <li><a href="{% url 'vehicle_list' %}">View Vehicles</a></li>
-            <li><a href="#">Reports</a></li>
+            <li><a href="{% url 'staf_bookings' %}">View My Bookings</a></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
         </ul>
     </nav>
 
     <div class="container">
         <h2>Add Vehicle</h2>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="id_staf">Assign to Staff</label>
