@@ -4,192 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        * {
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
+            background-color: #1e1e2f;
+            color: #eaeaea;
             display: flex;
-            min-height: 100vh;
-            background-color: #f4f4f4;
         }
 
-        /* Sidebar Styling */
+        /* Sidebar Styles */
         .sidebar {
             width: 250px;
-            background: #1e1e2d;
-            color: white;
+            height: 100vh;
+            background: linear-gradient(180deg, #ff416c, #ff4b2b);
             padding: 20px;
             position: fixed;
-            height: 100%;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar h2 {
+            color: #ffffff;
             text-align: center;
             margin-bottom: 20px;
         }
 
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
+        .sidebar a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 10px;
             transition: 0.3s;
         }
 
-        .sidebar ul li i {
-            width: 30px;
-            text-align: center;
-        }
-
-        .sidebar ul li:hover {
-            background: #34344a;
-            border-radius: 8px;
+        .sidebar a:hover {
+            background: #ffcc00;
+            color: #000;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: 250px;
+            margin-left: 270px;
             padding: 20px;
-            width: 100%;
-        }
-
-        .header {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h3 {
-            margin: 0;
-        }
-
-        .header .user-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .header .user-info img {
-            width: 40px;
-            border-radius: 50%;
-            margin-left: 10px;
+            width: calc(100% - 270px);
         }
 
         /* Dashboard Cards */
-        .cards {
+        .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .card {
-            background: white;
+            background: #4b2bff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            box-shadow: 0px 2px 10px rgba(255, 192, 0, 0.5);
+            color: #fff;
         }
 
-        .card i {
-            font-size: 30px;
-            margin-bottom: 10px;
-            color: #6200ea;
-        }
-
-        .card h4 {
-            margin: 10px 0;
+        .card h3 {
+            margin: 0;
+            font-size: 22px;
         }
 
         .card p {
             font-size: 18px;
-            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #222831;
+            overflow-x: auto;
+            display: block;
+            white-space: nowrap;
+        }
+
+        th, td {
+            border: 1px solid #393e46;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #ffcc00;
+            color: black;
+        }
+
+        tr:nth-child(even) {
+            background: #393e46;
+        }
+
+        tr:hover {
+            background: rgba(255, 76, 41, 0.3);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
-                width: 60px;
-                text-align: center;
-                overflow: hidden;
+                width: 200px;
             }
-
-            .sidebar h2 {
-                display: none;
-            }
-
-            .sidebar ul li span {
-                display: none;
-            }
-
             .main-content {
-                margin-left: 60px;
+                margin-left: 220px;
+                width: calc(100% - 220px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            table {
+                display: block;
+                overflow-x: auto;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
+    <!-- Sidebar Navigation -->
     <div class="sidebar">
-        <h2>Vehicle Rental</h2>
-        <ul>
-            <li><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></li>
-            <li><i class="fas fa-users"></i> <span>Users</span></li>
-            <li><i class="fas fa-box"></i> <span>Products</span></li>
-            <li><i class="fas fa-chart-line"></i> <span>Reports</span></li>
-            <li><i class="fas fa-cogs"></i> <span>Settings</span></li>
-            <li><a href="../logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
-        </ul>
+        <h2>Admin Panel</h2>
+        <a href="../logout">Logout</a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <div class="header">
-            <h3>Dashboard</h3>
-            <div class="user-info">
-                <span>Welcome, Admin</span>
+        
+        <!-- Dashboard Stats -->
+        <div class="stats-container">
+            <div class="card">
+                <h3>Total Customers</h3>
+                <p>{{ customers|length }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Staff</h3>
+                <p>{{ staffs|length }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Vehicles</h3>
+                <p>{{ vehicles|length }}</p>
+            </div>
+            <div class="card">
+                <h3>Total Bookings</h3>
+                <p>{{ bookings|length }}</p>
             </div>
         </div>
 
-        <!-- Dashboard Cards -->
-        <div class="cards">
-            <div class="card">
-                <i class="fas fa-users"></i>
-                <h4>Total Users</h4>
-                <p>1,250</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-box"></i>
-                <h4>Products</h4>
-                <p>320</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-dollar-sign"></i>
-                <h4>Revenue</h4>
-                <p>$50,000</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-chart-line"></i>
-                <h4>Sales</h4>
-                <p>650</p>
-            </div>
-        </div>
+        <!-- Customers Table -->
+        <h2>All Customers</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Location</th>
+            </tr>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.location }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No customers found.</td></tr>
+            {% endfor %}
+        </table>
+
+        <!-- Staff Table -->
+        <h2>All Staff Members</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Location</th>
+            </tr>
+            {% for staff in staffs %}
+            <tr>
+                <td>{{ staff.name }}</td>
+                <td>{{ staff.email }}</td>
+                <td>{{ staff.location }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3">No staff found.</td></tr>
+            {% endfor %}
+        </table>
+
+        <!-- Vehicles Table -->
+        <h2>All Vehicles</h2>
+        <table>
+            <tr>
+                <th>Vehicle Name</th>
+                <th>Model</th>
+                <th>Price/Day</th>
+                <th>Availability</th>
+            </tr>
+            {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle.name }}</td>
+                <td>{{ vehicle.model }}</td>
+                <td>${{ vehicle.price_per_day }}</td>
+                <td>{{ vehicle.availability|yesno:"Available,Not Available" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No vehicles found.</td></tr>
+            {% endfor %}
+        </table>
+
+        <!-- Bookings Table -->
+        <h2>All Bookings</h2>
+        <table>
+            <tr>
+                <th>Customer Name</th>
+                <th>Vehicle</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Price</th>
+                <th>Payment Status</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.customer_name }}</td>
+                <td>{{ booking.vehicle.name }}</td>
+                <td>{{ booking.start_date }}</td>
+                <td>{{ booking.end_date }}</td>
+                <td>${{ booking.total_price }}</td>
+                <td>{{ booking.payment_status }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No bookings found.</td></tr>
+            {% endfor %}
+        </table>
     </div>
-
 </body>
 </html>

@@ -107,8 +107,23 @@ def user_logout(request):
 
 
 
+from django.shortcuts import render
+from .models import Customer, Staf, Vehicle, Booking
+
 def adminhome(request):
-    return render(request,'admin/adminhome.html')
+    customers = Customer.objects.all()
+    staffs = Staf.objects.all()
+    vehicles = Vehicle.objects.all()
+    bookings = Booking.objects.all()
+
+    context = {
+        "customers": customers,
+        "staffs": staffs,
+        "vehicles": vehicles,
+        "bookings": bookings,
+    }
+    return render(request, "admin/adminhome.html", context)
+
 
 
 
@@ -127,12 +142,19 @@ from django.contrib import messages
 from .models import Vehicle, Staf
 from .forms import VehicleForm
 
-# Add Vehicle
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Vehicle, Staf
+from .forms import VehicleForm
+
 def add_vehicle(request):
     if request.method == "POST":
         form = VehicleForm(request.POST, request.FILES)
+        staf_id = request.POST.get("staf")  # Get selected staf from form
         if form.is_valid():
-            form.save()
+            vehicle = form.save(commit=False)
+            vehicle.staf_id = staf_id  # Assign staf before saving
+            vehicle.save()
             messages.success(request, "Vehicle added successfully!")
             return redirect("vehicle_list")
         else:
@@ -143,18 +165,21 @@ def add_vehicle(request):
     staff_list = Staf.objects.all()
     return render(request, "staf/add_vehicle.html", {"form": form, "staff_list": staff_list})
 
+
 # View Vehicles
 def vehicle_list(request):
     vehicles = Vehicle.objects.all()
     return render(request, "staf/vehicle_list.html", {"vehicles": vehicles})
 
-# Update Vehicle
 def update_vehicle(request, vehicle_id):
     vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+
     if request.method == "POST":
         form = VehicleForm(request.POST, request.FILES, instance=vehicle)
         if form.is_valid():
-            form.save()
+            vehicle = form.save(commit=False)
+            vehicle.staf = vehicle.staf  # Retaining the existing staf value
+            vehicle.save()
             messages.success(request, "Vehicle updated successfully!")
             return redirect("vehicle_list")
         else:
@@ -164,6 +189,18 @@ def update_vehicle(request, vehicle_id):
 
     return render(request, "staf/update_vehicle.html", {"form": form})
 
+
+
+
+
+
+
+# Delete Vehicle
+def delete_vehicle(request, vehicle_id):
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+    vehicle.delete()
+    messages.success(request, "Vehicle deleted successfully!")
+    return redirect("vehicle_list")
 
 
 

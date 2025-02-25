@@ -57,10 +57,7 @@ class LoginForm(forms.Form):
 
 
 
-from django import forms
-from .models import Vehicle
-
 class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicle
-        fields = ["staf", "name", "model", "price_per_day", "availability", "image"]
+        fields = ["name", "model", "price_per_day", "availability", "image"]

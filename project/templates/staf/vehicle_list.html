@@ -143,6 +143,21 @@
             font-size: 1.5rem;
         }
 
+        .btn-delete {
+            background-color: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        .btn-delete:hover {
+            background-color: #cc0000;
+        }
+        
+
     </style>
 </head>
 <body>
@@ -193,7 +208,9 @@
                 </td>
                 <td>
                     <a href="{% url 'update_vehicle' vehicle.id %}" class="btn btn-update">Update</a>
+                    <a href="{% url 'delete_vehicle' vehicle.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</a>
                 </td>
+                
             </tr>
             {% endfor %}
         </table>

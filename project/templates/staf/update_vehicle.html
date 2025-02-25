@@ -12,7 +12,6 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
         body {
             background-color: #0d1117;
             color: #e0e0e0;
@@ -20,7 +19,7 @@
             flex-direction: column;
             align-items: center;
         }
-
+        
         /* Navbar */
         .navbar {
             display: flex;
@@ -29,22 +28,22 @@
             width: 100%;
             background: #161b22;
             padding: 15px 8%;
-            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 170, 255, 0.1);
         }
-
+        
         .navbar .logo a {
             font-size: 22px;
             font-weight: 600;
-            color: #ffcc00;
+            color: #00aaff;
             text-decoration: none;
         }
-
+        
         .navbar ul {
             list-style: none;
             display: flex;
             gap: 20px;
         }
-
+        
         .navbar ul li a {
             text-decoration: none;
             color: #e0e0e0;
@@ -52,11 +51,11 @@
             padding: 8px 12px;
             transition: 0.3s;
         }
-
+        
         .navbar ul li a:hover {
-            color: #ffcc00;
+            color: #00aaff;
         }
-
+        
         /* Container */
         .container {
             max-width: 450px;
@@ -64,36 +63,36 @@
             background: #1c1f26;
             padding: 35px;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 170, 255, 0.2);
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
+        
         h2 {
-            color: #ffcc00;
+            color: #00aaff;
             font-weight: 600;
             margin-bottom: 15px;
         }
-
+        
         /* Form Styles */
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-
+        
         label {
             font-size: 14px;
             text-align: left;
-            color: #ffcc00;
+            color: #00aaff;
             font-weight: 500;
         }
-
+        
         input, select {
             padding: 12px;
             border: 1px solid #333;
@@ -104,17 +103,17 @@
             width: 100%;
             transition: 0.3s;
         }
-
+        
         input:focus, select:focus {
             outline: none;
-            border-color: #ffcc00;
-            box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+            border-color: #00aaff;
+            box-shadow: 0 0 8px rgba(0, 170, 255, 0.7);
         }
-
+        
         /* Buttons */
         .btn-primary {
             padding: 12px;
-            background: #ffcc00;
+            background: #00aaff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -123,53 +122,54 @@
             color: #000;
             transition: 0.3s;
         }
-
+        
         .btn-primary:hover {
-            background: #ffaa00;
+            background: #0088cc;
             transform: scale(1.05);
         }
-
+        
         .btn-secondary {
             display: inline-block;
             margin-top: 10px;
             text-decoration: none;
-            color: #ffcc00;
+            color: #00aaff;
             font-weight: bold;
             transition: 0.3s;
         }
-
+        
         .btn-secondary:hover {
-            color: #ffaa00;
+            color: #0088cc;
             text-decoration: underline;
         }
-
+        
         /* Message Alerts */
         .message {
             padding: 10px;
-            background: rgba(255, 204, 0, 0.2);
-            color: #ffcc00;
+            background: rgba(0, 170, 255, 0.2);
+            color: #00aaff;
             border-radius: 5px;
             margin-bottom: 15px;
             font-size: 14px;
         }
-
+        
         /* Responsive */
         @media (max-width: 500px) {
             .container {
                 max-width: 90%;
                 padding: 25px;
             }
-
+        
             .navbar {
                 flex-direction: column;
                 text-align: center;
             }
-
+        
             .navbar ul {
                 margin-top: 10px;
                 gap: 15px;
             }
         }
+        
     </style>
 </head>
 <body>
@@ -189,17 +189,18 @@
     <div class="container">
         <h2>Update Vehicle</h2>
 
-        {% if messages %}
+        {% comment %} {% if messages %}
             {% for message in messages %}
                 <p class="message">{{ message }}</p>
             {% endfor %}
-        {% endif %}
+        {% endif %} {% endcomment %}
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
             <label for="id_name">Vehicle Name</label>
-            <input type="text" name="name" id="id_name" value="{{ form.instance.name }}" required>
+            <input type="text" name="{{ form.name.name }}" id="id_name" value="{{ form.instance.name }}" required>
+
 
             <label for="id_model">Vehicle Model</label>
             <input type="text" name="model" id="id_model" value="{{ form.instance.model }}" required>
