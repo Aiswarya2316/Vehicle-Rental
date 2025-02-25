@@ -163,3 +163,149 @@ def update_vehicle(request, vehicle_id):
         form = VehicleForm(instance=vehicle)
 
     return render(request, "staf/update_vehicle.html", {"form": form})
+
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Vehicle, Booking
+from datetime import date
+
+def vehicle_lists(request):
+    """ Display all available vehicles """
+    vehicles = Vehicle.objects.filter(availability=True)
+    return render(request, "customer/vehicle_list.html", {"vehicles": vehicles})
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Vehicle, Booking
+from datetime import date
+
+def book_vehicle(request, vehicle_id):
+    """Handle vehicle booking without authentication"""
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+
+    if request.method == "POST":
+        start_date = request.POST.get("start_date")
+        end_date = request.POST.get("end_date")
+        customer_name = request.POST.get("customer_name")
+        customer_phone = request.POST.get("customer_phone")
+
+        if not (start_date and end_date and customer_name and customer_phone):
+            messages.error(request, "All fields are required.")
+            return redirect("book_vehicle", vehicle_id=vehicle.id)
+
+        start_date = date.fromisoformat(start_date)
+        end_date = date.fromisoformat(end_date)
+
+        if start_date >= end_date:
+            messages.error(request, "End date must be after the start date.")
+            return redirect("book_vehicle", vehicle_id=vehicle.id)
+
+        # Create the booking
+        booking = Booking.objects.create(
+            customer_name=customer_name,
+            customer_phone=customer_phone,
+            vehicle=vehicle,
+            start_date=start_date,
+            end_date=end_date
+        )
+
+        # Mark vehicle as unavailable
+        vehicle.availability = False
+        vehicle.save()
+
+        messages.success(request, "Vehicle booked successfully!")
+        return redirect("vehicle_lists")
+
+    return render(request, "customer/book_vehicle.html", {"vehicle": vehicle})
+
+
+
+
+
+
+from django.shortcuts import render
+from .models import Booking
+
+def booking_history(request):
+    """Display all bookings with updated status"""
+    bookings = Booking.objects.all().order_by("-id")  # Fetch latest bookings first
+    return render(request, "customer/booking_history.html", {"bookings": bookings})
+
+
+
+import razorpay
+from django.conf import settings
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from .models import Booking
+
+def make_payment(request, booking_id):
+    """Initiate Razorpay payment"""
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    # Initialize Razorpay client
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+    # Create an order in Razorpay
+    order_data = {
+        "amount": int(booking.total_price * 100),  # Amount in paisa
+        "currency": "INR",
+        "payment_capture": "1",
+    }
+    order = client.order.create(data=order_data)
+
+    return render(
+        request,
+        "customer/payment.html",
+        {
+            "booking": booking,
+            "order_id": order["id"],
+            "razorpay_key": settings.RAZORPAY_KEY_ID
+        },
+    )
+
+
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+import json
+
+@csrf_exempt
+def payment_success(request):
+    """Update booking payment status on successful payment"""
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            booking_id = data.get("booking_id")
+            payment_id = data.get("razorpay_payment_id")
+
+            if not booking_id or not payment_id:
+                return JsonResponse({"status": "error", "message": "Invalid payment data"}, status=400)
+
+            # Get the booking and update the payment status
+            booking = get_object_or_404(Booking, id=booking_id)
+            booking.payment_status = "Paid"
+            booking.save(update_fields=["payment_status"])
+
+            messages.success(request, "Payment successful! Your booking is confirmed.")
+            return JsonResponse({"status": "success", "message": "Payment successful!"}, status=200)
+
+        except json.JSONDecodeError:
+            return JsonResponse({"status": "error", "message": "Invalid data received"}, status=400)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
+
+
+
+
+def about (request):
+    return render(request,'customer/about.html')

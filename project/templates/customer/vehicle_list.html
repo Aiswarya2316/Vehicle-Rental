@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Vehicles - Vehicle Rental</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #003366;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+
+        .navbar ul li a:hover {
+            background: #ffd700;
+            color: #003366;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 85%;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #003366;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        /* Vehicle Cards Grid */
+        .vehicle-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .vehicle-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .vehicle-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .vehicle-card h3 {
+            font-size: 20px;
+            color: #003366;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+
+        .vehicle-card p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Book Now Button */
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .navbar ul li {
+                padding: 5px 0;
+            }
+
+            .vehicle-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo"><a href="../customerhome">Vehicle Rental</a></div>
+        <ul>
+            <li><a href="../customerhome">Home</a></li>
+            <li><a href="../about">About</a></li>
+            <li><a href="../vehiclelists">Vehicles For Rental</a></li>
+            <li><a href="../booking-history">Booking History</a></li>
+            <li><a href="../logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        <h2>Available Vehicles</h2>
+
+        <div class="vehicle-container">
+            {% for vehicle in vehicles %}
+            <div class="vehicle-card">
+                <img src="{{ vehicle.image.url }}" alt="{{ vehicle.name }}">
+                <h3>{{ vehicle.name }} - {{ vehicle.model }}</h3>
+                <p>Price Per Day: ₹{{ vehicle.price_per_day }}</p>
+                <a href="{% url 'book_vehicle' vehicle.id %}" class="btn">Book Now</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endblock %}
+    </div>
+
+</body>
+</html>

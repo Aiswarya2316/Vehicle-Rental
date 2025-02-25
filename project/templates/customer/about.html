@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Vehicle Rental</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #003366;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .navbar .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+
+        .navbar ul li a:hover {
+            background: #ffd700;
+            color: #003366;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url("{% static 'vehicle-insurance.png' %}") no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: bold;
+            z-index: 1;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* About Section */
+        .about {
+            max-width: 85%;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .about h2 {
+            color: #003366;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .about p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .about img {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 40px auto;
+            max-width: 85%;
+        }
+
+        .feature {
+            background: white;
+            width: 30%;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature i {
+            font-size: 40px;
+            color: #003366;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #003366;
+        }
+
+        .feature p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            background: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .why-choose {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo"><a href="{% url 'customerhome' %}">Vehicle Rental</a></div>
+        <ul>
+            <li><a href="{% url 'customerhome' %}">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="{% url 'vehicle_lists' %}">Vehicles</a></li>
+            <li><a href="{% url 'booking_history' %}">Bookings</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>About Vehicle Rental - Your Journey, Our Responsibility</h1>
+    </div>
+
+    <!-- About Section -->
+    <div class="about">
+        <h2>Who We Are</h2>
+        <p>Welcome to <strong>Vehicle Rental</strong>, your trusted partner for convenient and affordable car rentals. Whether you're looking for luxury, economy, or family-friendly vehicles, we have a wide range of options to suit your needs.</p>
+        <img src="{% static 'Cars.png' %}" alt="About Image">
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="why-choose">
+        <div class="feature">
+            <i class="fas fa-car"></i>
+            <h3>Wide Range of Vehicles</h3>
+            <p>We offer cars, SUVs, and luxury vehicles to meet every travel need.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-hand-holding-usd"></i>
+            <h3>Affordable Pricing</h3>
+            <p>Get the best deals with no hidden charges.</p>
+        </div>
+        <div class="feature">
+            <i class="fas fa-headset"></i>
+            <h3>24/7 Customer Support</h3>
+            <p>We're here to assist you anytime, anywhere.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Vehicle Rental. All Rights Reserved.</p>
+    </div>
+
+</body>
+</html>

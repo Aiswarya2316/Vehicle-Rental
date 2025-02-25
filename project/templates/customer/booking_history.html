@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking History - Vehicle Rental</title>
+    <style>
+        /* Reset Default Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #002b5b;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .navbar .logo a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar ul li {
+            display: inline;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .navbar ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 90%;
+            margin: 80px auto 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .container h2 {
+            color: #002b5b;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* Success Message Styling */
+        .message {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #002b5b;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f1f1f1;
+        }
+
+        /* Payment Status Styles */
+        .paid {
+            color: green;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Buy Now Button */
+        .buy-now {
+            padding: 8px 14px;
+            background: #ff6600;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .buy-now:hover {
+            background: #cc5500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                margin-top: 10px;
+            }
+
+            .navbar ul li {
+                padding: 5px 0;
+            }
+
+            table {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo"><a href="../customerhome"> Vehicle Rental</a></div>
+        <ul>
+            <li><a href="../customerhome">Home</a></li>
+            <li><a href="../about">About</a></li>
+            <li><a href="../vehiclelists">Vehicles For Rental</a></li>
+            <li><a href="../booking-history">Booking History</a></li>
+            <li><a href="../logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        <h2>Booking History</h2>
+
+        <!-- Success Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <table>
+            <tr>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Vehicle</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Total Price</th>
+                <th>Payment Status</th>
+                <th>Action</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.customer_name }}</td>
+                <td>{{ booking.customer_phone }}</td>
+                <td>{{ booking.vehicle.name }}</td>
+                <td>{{ booking.start_date }}</td>
+                <td>{{ booking.end_date }}</td>
+                <td>₹{{ booking.total_price }}</td>
+                <td>
+                    {% if booking.payment_status == "Paid" %}
+                        <span class="paid">Paid</span>
+                    {% else %}
+                        <span class="pending">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.payment_status == "Pending" %}
+                        <a href="{% url 'make_payment' booking.id %}" class="buy-now">Pay Now</a>
+                    {% else %}
+                        <span>✔</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endblock %}
+    </div>
+
+</body>
+</html>
